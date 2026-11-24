@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS usage_hourly;
+DROP TABLE IF EXISTS usage_events;
+DROP TABLE IF EXISTS api_keys;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS plans;
