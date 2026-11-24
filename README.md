@@ -134,7 +134,7 @@ Evaluation templates: [docs/hci-evaluation.md](docs/hci-evaluation.md).
 ## Known limitations
 
 - No password reset, email change, or MFA.
-- Theme preference is browser-local only.
+- Theme preference is browser local only.
 - Large frontend JS bundle (Recharts).
 - No automated browser E2E in this environment.
 - Formal HCI participant study not run here.
