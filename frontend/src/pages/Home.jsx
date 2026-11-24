@@ -84,7 +84,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-canvas">
-        <video src="/videos/intro.mp4" autoPlay muted className="w-full max-w-5xl mx-auto my-8" />
+        <video src="/videos/intro.mp4" autoPlay className="w-full max-w-5xl mx-auto my-8" />
       <header className="relative overflow-hidden bg-gradient-to-br from-[#0f1b4c] via-[#13235e] to-[#1d2f7a]">
         <SidebarWaves className="absolute inset-x-0 bottom-0 h-56 w-full" />
         <div className="relative mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
