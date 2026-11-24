@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { apiGet } from '../api/client';
@@ -77,108 +77,106 @@ function HomeSplash({ setShowIntro }) {
   );
 }
 
+export { HomeSplash };
+
 export default function Home() {
   const { isAuthenticated } = useAuth();
-  const [showIntro, setShowIntro] = useState(true);
 
   return (
     <div className="min-h-screen bg-canvas">
-      {showIntro ? (
-        <HomeSplash setShowIntro={setShowIntro} />
-      ) : (
-        <>
-          <header className="relative overflow-hidden bg-gradient-to-br from-[#0f1b4c] via-[#13235e] to-[#1d2f7a]">
-            <SidebarWaves className="absolute inset-x-0 bottom-0 h-56 w-full" />
-            <div className="relative mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
-              <Wordmark tone="light" />
-              <nav aria-label="Account" className="flex items-center gap-2">
-                {isAuthenticated ? (
-                  <Link to="/app" className={buttonClasses({ variant: 'primary', size: 'sm' })}>
-                    Open dashboard
-                  </Link>
-                ) : (
-                  <>
-                    <Link to="/login" className="px-2 text-[13px] text-sidebar-fg hover:text-white">
-                      Log in
-                    </Link>
-                    <Link to="/signup" className="px-2 text-[13px] text-sidebar-fg hover:text-white">
-                      Sign up
-                    </Link>
-                  </>
-                )}
-              </nav>
-            </div>
+        <video src="/videos/intro.mp4" autoPlay muted className="w-full max-w-5xl mx-auto my-8" />
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#0f1b4c] via-[#13235e] to-[#1d2f7a]">
+        <SidebarWaves className="absolute inset-x-0 bottom-0 h-56 w-full" />
+        <div className="relative mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
+          <Wordmark tone="light" />
+          <nav aria-label="Account" className="flex items-center gap-2">
+            {isAuthenticated ? (
+              <Link to="/app" className={buttonClasses({ variant: 'primary', size: 'sm' })}>
+                Open dashboard
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="px-2 text-[13px] text-sidebar-fg hover:text-white">
+                  Log in
+                </Link>
+                <Link to="/signup" className="px-2 text-[13px] text-sidebar-fg hover:text-white">
+                  Sign up
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
 
-            <div className="relative mx-auto grid max-w-5xl gap-10 px-4 pb-14 pt-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
-              <div>
-                <h1 className="max-w-[20ch] text-[30px] font-semibold leading-tight text-white sm:text-[34px]">
-                  Cache-as-a-Service
-                </h1>
-                <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-sidebar-fg">
-                  A hosted Redis cache behind a small REST API. Store JSON under a key with a TTL, read it back from any
-                  language, and see hit rate, latency and quota use in the dashboard.
-                </p>
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <Link
-                    to={isAuthenticated ? '/app' : '/signup'}
-                    className={buttonClasses({ variant: 'primary', size: 'lg' })}
-                  >
-                    {isAuthenticated ? 'Open dashboard' : 'Create an account'}
-                  </Link>
-                  <Link
-                    to={isAuthenticated ? '/app/integrate' : '/login'}
-                    className={buttonClasses({ variant: 'inverse', size: 'lg' })}
-                  >
-                    {isAuthenticated ? 'API reference' : 'Log in'}
-                  </Link>
-                </div>
-              </div>
-              <ExampleSession caption="Example" />
+        <div className="relative mx-auto grid max-w-5xl gap-10 px-4 pb-14 pt-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
+          <div>
+            <h1 className="max-w-[20ch] text-[30px] font-semibold leading-tight text-white sm:text-[34px]">
+              Cache-as-a-Service
+            </h1>
+            <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-sidebar-fg">
+              A hosted Redis cache behind a small REST API. Store JSON under a key with a TTL, read it back from any
+              language, and see hit rate, latency and quota use in the dashboard.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                to={isAuthenticated ? '/app' : '/signup'}
+                className={buttonClasses({ variant: 'primary', size: 'lg' })}
+              >
+                {isAuthenticated ? 'Open dashboard' : 'Create an account'}
+              </Link>
+              <Link
+                to={isAuthenticated ? '/app/integrate' : '/login'}
+                className={buttonClasses({ variant: 'inverse', size: 'lg' })}
+              >
+                {isAuthenticated ? 'API reference' : 'Log in'}
+              </Link>
             </div>
-          </header>
+          </div>
+          <ExampleSession caption="Example" />
+        </div>
+      </header>
 
-          <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-            <section aria-labelledby="health-heading">
-              <div className="mb-3 flex items-end justify-between">
-                <div>
-                  <h2 id="health-heading" className="text-base font-semibold text-fg">
-                    Backend health
-                  </h2>
-                  <p className="mt-0.5 text-sm text-fg-">
-                    Checked against this deployment every 10 seconds.
-                  </p>
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-3">
-                <StatusCard
-                  title="API"
-                  query={{
-                    queryKey: ['health'],
-                    queryFn: () => apiGet('/health'),
-                    refetchInterval: 10000,
-                  }}
-                />
-                <StatusCard
-                  title="PostgreSQL"
-                  query={{
-                    queryKey: ['health', 'db'],
-                    queryFn: () => apiGet('/health/db'),
-                    refetchInterval: 10000,
-                  }}
-                />
-                <StatusCard
-                  title="Redis"
-                  query={{
-                    queryKey: ['health', 'redis'],
-                    queryFn: () => apiGet('/health/redis'),
-                    refetchInterval: 10000,
-                  }}
-                />
-              </div>
-            </section>
-          </main>
-        </>
-      )}
+
+
+      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <section aria-labelledby="health-heading">
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <h2 id="health-heading" className="text-base font-semibold text-fg">
+                Backend health
+              </h2>
+              <p className="mt-0.5 text-sm text-fg-">
+                Checked against this deployment every 10 seconds.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <StatusCard
+              title="API"
+              query={{
+                queryKey: ['health'],
+                queryFn: () => apiGet('/health'),
+                refetchInterval: 10000,
+              }}
+            />
+            <StatusCard
+              title="PostgreSQL"
+              query={{
+                queryKey: ['health', 'db'],
+                queryFn: () => apiGet('/health/db'),
+                refetchInterval: 10000,
+              }}
+            />
+            <StatusCard
+              title="Redis"
+              query={{
+                queryKey: ['health', 'redis'],
+                queryFn: () => apiGet('/health/redis'),
+                refetchInterval: 10000,
+              }}
+            />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
