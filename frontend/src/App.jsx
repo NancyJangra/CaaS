@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => window.location.pathname !== '/');
 
   return (
     <QueryClientProvider client={queryClient}>

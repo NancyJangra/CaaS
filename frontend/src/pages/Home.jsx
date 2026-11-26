@@ -7,7 +7,6 @@ import { Wordmark } from '../components/ui/Logo';
 import { buttonClasses } from '../components/ui/Button';
 import { Badge } from '../components/ui/primitives';
 import ExampleSession from '../components/ExampleSession';
-import { SidebarWaves } from '../components/ui/BackgroundArt';
 
 function StatusCard({ title, query }) {
   const { data, isLoading, isError, error } = useQuery(query);
@@ -84,10 +83,18 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-canvas">
-        <video src="/videos/intro.mp4" autoPlay className="w-full max-w-5xl mx-auto my-8" />
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#0f1b4c] via-[#13235e] to-[#1d2f7a]">
-        <SidebarWaves className="absolute inset-x-0 bottom-0 h-56 w-full" />
-        <div className="relative mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
+      <header className="relative isolate overflow-hidden bg-[#080e26]">
+        <img
+          src="/cache-hero.webp"
+          alt=""
+          fetchPriority="high"
+          width="1672"
+          height="941"
+          className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[62%_center] md:object-right"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-[#080e26]/95 via-[#080e26]/65 to-[#080e26]/5" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-[#080e26] via-transparent to-[#080e26]/35" />
+        <div className="relative mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Wordmark tone="light" />
           <nav aria-label="Account" className="flex items-center gap-2">
             {isAuthenticated ? (
@@ -107,14 +114,14 @@ export default function Home() {
           </nav>
         </div>
 
-        <div className="relative mx-auto grid max-w-5xl gap-10 px-4 pb-14 pt-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
+        <div className="relative mx-auto flex min-h-[34rem] max-w-6xl items-center px-4 pb-16 pt-8 sm:px-6 lg:min-h-[36rem]">
           <div>
-            <h1 className="max-w-[20ch] text-[30px] font-semibold leading-tight text-white sm:text-[34px]">
-              Cache-as-a-Service
+            <p className="mb-4 text-sm font-semibold text-[#a8beff]">Cache-as-a-Service</p>
+            <h1 className="max-w-[14ch] text-5xl font-semibold leading-[1.03] tracking-tight text-white sm:text-6xl xl:text-7xl">
+              Store it once. <span className="text-[#a8beff]">Read it fast.</span>
             </h1>
             <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-sidebar-fg">
-              A hosted Redis cache behind a small REST API. Store JSON under a key with a TTL, read it back from any
-              language, and see hit rate, latency and quota use in the dashboard.
+              Store JSON in hosted Redis with a simple REST API. Set an expiry and track cache hits, latency, and usage in your dashboard.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
@@ -129,15 +136,20 @@ export default function Home() {
               >
                 {isAuthenticated ? 'API reference' : 'Log in'}
               </Link>
+              <a href="#cache-demo" className={buttonClasses({ variant: 'inverse', size: 'lg' })}>
+                Try the cache demo ↓
+              </a>
             </div>
           </div>
-          <ExampleSession caption="Example" />
         </div>
       </header>
 
 
 
-      <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+      <main className="mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6">
+        <div id="cache-demo" tabIndex={-1} className="mx-auto max-w-3xl scroll-mt-6">
+          <ExampleSession />
+        </div>
         <section aria-labelledby="health-heading">
           <div className="mb-3 flex items-end justify-between">
             <div>
